@@ -17,7 +17,7 @@ void page_replace(set<pair<int,int>>& frame_set, int n){
 //This function is for updating the pages score of recency 
 //(Because set of pairs(element) decrement is not straight forward)
 void frame_update(set<pair<int,int>>& frame_set, int n){
-    //Had to do this to for loop separately due to a bug
+    //Had to do this two for loop separately due to a bug
 
     //This is for if the current page(n) is not present
     for(auto it=frame_set.begin(); it!=frame_set.end(); it++){
