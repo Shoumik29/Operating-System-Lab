@@ -7,69 +7,31 @@ using namespace std;
 
 int main(){
 
-    int n = 6;
+    int prc_no = 6; //no. of processes
 
-    int srt_pr[n];
-    int pr[n] = {2,1,3,4,3,5}; //Priority
-    int ar[n] = {3,2,5,4,1,0}; //Arrival time
-    int br[n] = {5,4,1,7,6,2}; //Burst time
+    int pr[prc_no] = {2,1,3,4,3,5}; //Priority --> the lower the higher
+    int ar[prc_no] = {3,2,5,4,1,0}; //Arrival time
+    int br[prc_no] = {5,4,1,7,6,2}; //Burst time
+
+    set<pair<pair<int,int>, int>> prc_set; //process set of pairs (priority, process no.)
+    vector<int> ans_vec; //Final answer vector
 
     int time = 0;
-
-    vector<int> proc_seq;
     
-    vector<int> vec;
+    //first time initializing the process set
+    for(int i=0;i<prc_no;i++) if(ar[i]<=time) prc_set.insert({{pr[i],ar[i]}, i}); //{{priority, arrival time}, prc no.}
 
-    for(int i=0;i<n;i++){
-        for(int j=0;j<n;j++){
-            if(ar[j]==i){
-                ar[j]==Max;
-                vec.push_back(j);
-            }
-        }
-    }
-    int ind=0;
-    for(auto val: vec) {srt_pr[ind]=val; ind++;}
+    while(!prc_set.empty()){
+        auto it = prc_set.begin(); //storing the first process to work with
+        ans_vec.push_back((*it).second); //pushing process no. to answer vector
+        time = time + br[(*it).second]; //increasing time according to process burst time
+        pr[(*it).second] = 0; //marking the complete process by setting it's priority to zero
+        prc_set.erase(it); //removing the complete process
 
-    vector<int> pr_vec;
-    vector<int> time_vec;
-    while(1){
-        for(int i=0;i<n;i++){
-            if(ar[srt_pr[i]]<=time) pr_vec.push_back(srt_pr[i]);
-        }
-        
-        time_vec.push_back(time);
-
-        if(pr_vec.empty()) break;
-
-        vector<int> prt_vec;
-        for(auto val: pr_vec) prt_vec.push_back(pr[val]);
-
-        sort(prt_vec.begin(), prt_vec.end());
-        //reverse(prt_vec.begin(), prt_vec.end());
-
-        for(auto val: prt_vec){
-            for(auto prc: pr_vec){
-                if(pr[prc]==val){
-                    time += br[prc];
-                    ar[prc] = Max;
-                    proc_seq.push_back(prc+1);
-                    break; 
-                }
-            }
-            break;
-        }
-        prt_vec.clear();
-        pr_vec.clear();
+        //inserting processes within the time range
+        for(int i=0;i<prc_no;i++) if(ar[i]<=time && pr[i]!=0) prc_set.insert({{pr[i],ar[i]}, i}); 
     }
 
-    cout<<endl;
-
-    int length = proc_seq.size();
-    cout<<time_vec[0]<<endl;
-    for(int i=0;i<length;i++){
-        cout<<"     "<<proc_seq[i]<<endl;
-        cout<<time_vec[i+1]<<endl;
-    }
+    for(auto val: ans_vec) cout<<val+1<<" ";
     cout<<endl;
 }
