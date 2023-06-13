@@ -30,6 +30,8 @@ int main(){
 
         //inserting processes within the time range
         for(int i=0;i<prc_no;i++) if(ar[i]<=time && pr[i]!=0) prc_set.insert({{pr[i],ar[i]}, i}); 
+
+        //for higher priority higher just reverse the set by rbegin, rend
     }
 
     for(auto val: ans_vec) cout<<val+1<<" ";
