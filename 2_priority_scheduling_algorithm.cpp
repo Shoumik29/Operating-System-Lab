@@ -13,13 +13,13 @@ int main(){
     int ar[prc_no] = {3,2,5,4,1,0}; //Arrival time
     int br[prc_no] = {5,4,1,7,6,2}; //Burst time
 
-    set<pair<pair<int,int>, int>> prc_set; //process set of pairs (priority, process no.)
+    set<pair<pair<int,int>, int>> prc_set; //{{priority, arrival time}, prc no.}
     vector<int> ans_vec; //Final answer vector
 
     int time = 0;
     
     //first time initializing the process set
-    for(int i=0;i<prc_no;i++) if(ar[i]<=time) prc_set.insert({{pr[i],ar[i]}, i}); //{{priority, arrival time}, prc no.}
+    for(int i=0;i<prc_no;i++) if(ar[i]<=time) prc_set.insert({{pr[i],ar[i]}, i}); 
 
     while(!prc_set.empty()){
         auto it = prc_set.begin(); //storing the first process to work with
